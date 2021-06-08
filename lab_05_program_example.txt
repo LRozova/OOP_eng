@@ -1,0 +1,131 @@
+//---------------------------------------------------------
+//FILE three_d.h
+//---------------------------------------------------------
+#ifndef THREE_D_H_INCLUDED
+#define THREE_D_H_INCLUDED
+class three_d
+{
+    int x,y,z;
+public:
+    three_d(){x=y=z=0;}
+    three_d(int i,int j,int k) {x=i;y=j;z=k;}
+    int getX(){return x;}
+    int gexY(){return y;}
+    int getZ() {return z;}
+    three_d operator+ (three_d op2);
+    three_d operator= (three_d op2);
+    three_d operator--();
+    three_d operator--(int notused);
+    friend three_d operator++(three_d &op1);
+    friend three_d operator++(three_d &op1, int notused);
+    friend three_d operator* (three_d &op1, three_d &op2);
+    void show();
+};
+three_d operator- (three_d &op1,three_d &op2);
+
+#endif // THREE_D_H_INCLUDED
+
+
+//----------------------------------------------------------
+//FILE three_d.cpp
+//---------------------------------------------------------
+
+#include "three_d.h"
+#include <iostream>
+
+using namespace std;
+three_d operator- (three_d &op1,three_d &op2)
+    {
+        return three_d(op1.getX()-op2.getX(),op1.gexY()-op2.gexY(),op1.getZ()-op2.getZ());
+    }
+three_d three_d::operator+(three_d op2)
+  {
+    three_d temp;
+    temp.x=x+op2.x;
+    temp.y=y+op2.y;
+    temp.z=z+op2.z;
+    return temp;
+  }
+three_d three_d::operator= (three_d op2)
+  {
+      x=op2.x;
+      y=op2.y;
+      z=op2.z;
+      return *this;
+  }
+three_d three_d::operator--()
+  {
+      x--;
+      y--;
+      z--;
+      return *this;
+  }
+three_d three_d::operator--(int notused)
+  {
+      three_d temp = *this;//storing an initial value
+      x--;
+      y--;
+      z--;
+      return temp;
+  }
+three_d operator* (three_d &op1, three_d &op2)
+  {
+      three_d temp;
+      temp.x = op1.x *op2.x;
+      temp.y = op1.y * op2.y;
+      temp.z = op1.z * op2.z;
+      return temp;
+  }
+three_d operator++(three_d &op1)
+  {
+      op1.x++;
+      op1.y++;
+      op1.z++;
+      return op1;
+  }
+three_d operator++(three_d &op1, int notused)
+  {
+      three_d temp = op1;
+      op1.x++;
+      op1.y++;
+      op1.z++;
+      return temp;
+  }
+void three_d::show()
+  {
+      cout<<x<<", "<<y<<", "<<z<<"\n";
+  }
+
+
+//--------------------------------------------------------
+//FILE main.cpp
+//--------------------------------------------------------
+
+#include <iostream>
+#include "three_d.h"
+using namespace std;
+
+int main(){  
+     three_d a(1,2,3), b(10,10,10), c;
+     cout<<"c=a+b \n";
+     c=a+b;
+     a.show();  b.show();  c.show();
+     cout<<"c=b=a \n";
+     c=b=a;
+     a.show();  b.show();  c.show();
+     cout<<"a=--c \n";
+     a=--c; // prefix form of decrement - the object receives value c after its decrement
+     a.show(); c.show();
+     cout<<"a=c-- \n";
+     a=c--;// postfix form of decrement - the object receives value c after its decrement
+     a.show(); c.show();
+     cout<<"c=a*b \n";
+      c=a*b;
+      c.show();
+      cout<<"a=++c; \n";
+      a=++c; a.show(); c.show();
+      cout<<"a=c++ \n";
+      a=c++; a.show(); c.show();
+      cout<<"c=a-b \n";
+      c=a-b;   c.show();
+  }
